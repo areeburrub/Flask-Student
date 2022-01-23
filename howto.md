@@ -20,7 +20,7 @@ Clicking student name will open the student profile you can add remarks and see 
 ## Making Attendance
 Click on checklist to get the lsit of all student in a batch **Red** indicates *absent* and clicking the names turn it **green** indicate *present* 
 
-![Lsit](howto/list.png) 
+![List](howto/List.png) 
 
 Enter the Reason of taking attendance and submit will save the attendance.
 
