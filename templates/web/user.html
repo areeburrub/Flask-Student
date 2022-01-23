@@ -1,0 +1,57 @@
+{% extends 'layouts/master.html' %}
+{% block title %}{{user.username}} | Super User Settings{% endblock %}
+{% block body %}
+<div class="container">
+<h1 align="center">Settings</h1>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-5">
+      <div class="row">
+        <div class="col-12" style="text-align:center;">
+          <div class="well well-sm" >
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                  <h4>{{user.username}}</h4>
+                  <small><i>Super User</i></small>
+                  <p>
+                      <i class="icon fas fa-envelope"></i><a target="_blank"  href="mailto:{{ user.email }}">{{ user.email }}</a>
+                  </p>
+                </div>
+            </div>
+          </div>
+          {% if user.userad == true %}
+          <div class="col-12" style="text-align:center;">
+            <a class="btn btn-primary" style="width:80%;" href="{{ url_for('signup') }}">Add User</a>
+          </div>
+          {% endif %}
+        </div>
+
+        <div style="padding:5px; margin:10px; border-radius:15px; background:linear-gradient(60deg,#d3d3d3,#dfdada);" class="col-12">
+          <div style="padding:5px;  font-size:1.5ch; text-align:center; width:100%;">There are <b>{{All|length}}</b> Superusers</div>
+          <table class="rwd-table ">
+            <tbody role="rowgroup">
+              <tr role="row">
+                <th role="columnheader" scope="col">Name</th>
+                <th role="columnheader" scope="col">E-mail</th>
+              </tr>
+            {% for contact in All %}
+              <tr role="row">
+                <td role="cell" data-th="Full Name" >{{ contact.username }}</td>
+                <td role="cell" data-th="E-Mail" ><a target="_blank"  href="mailto:{{ contact.email }}">{{ contact.email }}</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+      
+      
+</div>
+
+
+
+</div>
+{% endblock %}

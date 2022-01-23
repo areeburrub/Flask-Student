@@ -1,0 +1,161 @@
+{% from 'helpers/_forms.html' import generate_fields with context %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %} | R30 | Contacts </title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/table.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/comment.css') }}" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+	<style>
+		
+		body{
+			background:linear-gradient(60deg,#FFEFBA,#FFFFFF) no-repeat center center fixed;
+			background-repeat:no-repeat;
+			background-size: cover;
+		}
+		body::-webkit-scrollbar {
+			width: 0em;
+		}
+		.icon {  margin-bottom: 10px;margin-right: 10px;}
+
+		small {
+		display: block;
+		line-height: 1.428571429;
+		color: #999;
+		}
+
+		.fixed-top{
+			position: fixed; /* Make it stick/fixed */
+			top: 0; /* Stay on top */
+			width: 100%; /* Full width */
+			height:auto;
+			transition: top 0.9s; /* Transition effect when sliding down (and up) */
+			border-radius:0px;
+			background:linear-gradient(60deg,#3538fff1,#5168ccf3);
+			z-index: 40;
+		}
+		.close-flash{
+			color:white;
+			float:right;
+		}
+		.close-flash:hover{
+			color:black;
+		}
+		hr{
+			border: 0;
+			height: 1px;
+			background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	}
+	</style>
+	<!-- Super Styles -->
+	{% block head %}{% endblock %}
+	<style>
+		html, body { 
+			margin: 0; 
+			padding: 0; 
+		}
+		#wrap {
+			margin: 0;
+			width: 100%;
+		}
+	</style>
+  </head>
+  <body>
+		<nav id="navbart" class="navbar navbar-default fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Attendance Management</a>
+				</div>
+				<div class="collapse navbar-collapse"  id="bs-example-navbar-collapse-1">
+					<form action="{{ url_for('search') }}" method="get" class="navbar-form navbar-left">
+					<div class="form-group" id="search">
+						<input type="text" name="name" class="form-control" placeholder="Name..." style="margin-bottom: 3px;">
+					</div>
+					<button type="submit" class="btn btn-default">Search</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="{{ url_for('new_contact') }}">Add New</a></li>
+						<li><a href="{{ url_for('batches') }}">Batches</a></li>
+						<li><a href="{{ url_for('user', adid=user.adid) }}" >Settings</a></li>
+						<li><a href="{{ url_for('logout') }}">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div  style="margin-bottom:10vh;">
+
+
+		</div>
+		<div class="container flash-msg">
+			{# Flashed messages #}
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<div class="alert alert-{{ category }}" role="alert">{{ message }} <i style="float:right;" class="close-flash fas fa-times" onclick=delete_flash(this)></i></div>
+				{% endfor %}
+				{% endif %}
+			{% endwith %}
+			{# End Flashed messages #}
+		</div>
+		{% block body %}{% endblock %}
+		<div  style="margin-bottom:10vh;"></div>
+			<hr>
+		<div  style="margin-bottom:30vh;"></div>
+		
+		<!-- Footer
+			<footer class="page-footer font-small blue" id="foot" style="font-size:1ch; transition:1s; color:white; background:linear-gradient(60deg,#485563d5,#29323cab); position: fixed; bottom:0; right:0; width:100%; padding:3px;">
+
+				<div class="footer-copyright text-center py-3" style="opacity:80%;">Designed and Maintained by:
+					<a href="https://github.com/areeburrub" target="_blank" style="color:white;"> Areeb ur Rub</a>
+					<span style="float:right;"><button  data-toggle="tooltip" data-placement="left" title="close" id="close-foo" style="color:#000000;"><i class="fas fa-times"></i></button></span>
+				</div>
+
+			</footer>
+		-->
+			<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+			<script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='js/bootstrap-confirmation.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		
+			<script>
+				var prevScrollpos = window.pageYOffset;
+					window.onscroll = function() {
+						var currentScrollPos = window.pageYOffset;
+						if (prevScrollpos > currentScrollPos) {
+							document.getElementById("navbart").style.top = "0";
+							//document.getElementById("foot").style.bottom = "0";
+						} else {
+							document.getElementById("navbart").style.top = "-400px";
+							//document.getElementById("foot").style.bottom = "-100px";
+						}
+						prevScrollpos = currentScrollPos;
+					}
+					$(document).ready(function(){
+						$("#close-foo").click(function(){
+							$("#foot").fadeOut();
+						});
+
+						
+						$(function () {
+						$('[data-toggle="tooltip"]').tooltip()
+						})
+
+					});
+					function delete_flash(flash){
+						$(flash).parent().remove()
+				}
+			</script>
+  </body>
+</html>

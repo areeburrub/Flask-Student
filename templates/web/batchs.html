@@ -1,0 +1,44 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Select the batch{% endblock %}
+
+{% block head %}
+<style>
+  .batch{  
+    display:inline-flex;
+    background: -webkit-linear-gradient(60deg,#ff9e9e,#ff9090);
+    padding: 2px 12px 2px 12px;
+    margin: 2px 12px 2px 12px;
+    color:black;
+    border-radius: 10px;
+    transform:scale(1);
+    transition: .6s;
+  }
+  .batch:hover{  
+    background: -webkit-linear-gradient(60deg,#f86565,#fd5050);
+    padding: 2px 10px 2px 10px;
+    margin: 2px 12px 2px 12px;
+    border-radius: 25px;
+    color:white;
+    transform:scale(1.2);
+    text-decoration: none;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col col-12">
+      <h1 align="center">Select The batch</h1>
+    </div>
+    <div class="col col-12 batches">
+      {% for B in batches %}
+        <a class="batch" id="{{B.allowed}}" href="{{url_for('contacts', batch = B.allowed)}}">
+          <label class="custom-control-label"  for="{{B.allowed}}">{{B.allowed}}</label>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

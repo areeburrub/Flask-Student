@@ -1,0 +1,85 @@
+{% extends 'layouts/master.html' %}
+{% block title %}CheckList of {{b}}{% endblock %}
+
+{% block head%}
+<link href="{{ url_for('static', filename='css/checklist.css') }}" rel="stylesheet">
+<style>
+.loading{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right:0;
+  left : 0;
+  z-index:100;
+  background:linear-gradient(60deg,#1111116c,#3a373765);
+  display:none;
+}
+.loading-text{
+  position: fixed;
+  top:50%;
+  right:50%;
+  transform: translateX(50%) translateY(-50%);
+  z-index: 101;
+  color:white;
+  text-align:center;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="loading-submit" class="loading">
+  <div class="loading-text">
+    <img src="https://i.gifer.com/4V0b.gif" alt="uploading" title="uploading....">
+    <h1 style="font-size:400%">Uploading Please Wait</h1>
+    <h3 style="font-size:200%">it may take some time</h3>
+  </div>
+</div>
+<div class="container" style="margin-top:-5ch;">
+  <div class="row">
+    <form action="{{url_for('att',batch=b)}}" method="POST">
+      <input type="hidden" name="atid" value="{{attid}}">
+      <div class="col-12 checkbox">
+        {% for name in names %}
+          <input type="checkbox"  name="names" value="{{name.fullname}}" id="{{name.uid}}" {% if name.uid == 'W6XcBIzhGK0' %} checked {% endif %} style="padding-left:50px;" class="custom-control-input">
+          <label class="custom-control-label names disable-select"  for="{{name.uid}}">{{name.fullname}}</label> 
+        {% endfor %}
+      </div>
+      <div clas="f" >
+        <div class="form-group col-6" style="width:50%">
+          <label for="sel1">Select one:</label>
+          <select class="form-control" name="purpose" id="sel1">
+            <option value="att">Attendance</option>
+            <option value="just">Just List</option>
+          </select>
+        </div>
+        <div class="form-group col-6" style="width:80%;">
+            <label for="pur">Enter a Specific Purpose:</label>
+            <input id="pur" type="text" class="form-control pur" name="class" placeholder="Specific Purpose here">
+        </div>
+        <button type="submit" id="sub-btn" class="btn btn-primary">SUBMIT</button>
+      </div>
+    <!-- </form> -->
+  </div>
+</div>
+
+
+<div class="home_btn">
+<a target="_blank" href="{{url_for('index')}}"><i class="fa fa-home" aria-hidden="true"></i></a>
+</div>
+
+
+<script>
+window.onbeforeunload = function(){
+    return "Are you sure?";
+  }
+$('#sub-btn').click(function(){
+  $('#loading-submit').css("display", "block")
+});
+
+$('#loading-submit').click(function(){
+  $('#loading-submit').css("display", "none")
+});
+
+</script>
+
+{% endblock %}

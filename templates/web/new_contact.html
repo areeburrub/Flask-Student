@@ -1,0 +1,133 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Add New Student{% endblock %}
+
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/signin.css')}}">
+<style>
+
+
+#navbart{
+  display: none;
+}
+.home_btn{
+  position:fixed;
+  top:0;
+  right:0;
+  font-size:4ch;
+  margin:5px;
+  padding:5px;
+  border-radius:15px;
+  background:linear-gradient(45deg,#8d7e7e7e,#b5e2b959);
+}
+.names{
+display:inline-flex;
+padding: 2px 18px 2px 0px;
+margin: 9px 0px 12px 10px;
+background:linear-gradient(45deg,#eecc6d,#f8cc3c);
+font-family: Arial, Helvetica, sans-serif;
+font-size: 2.2ch;
+border-radius:10px;
+text-align:center;
+color:black;
+box-shadow: 0 9px 8px 0 #f8c10d33, 0 6px 9px 0 #ffed4d30;
+}
+.pur{
+font-family: monospace;
+font-weight:5;
+font-size:4ch;
+}
+.f{
+width:100%;
+display:inline-flex;
+}
+@media only screen and (max-width: 400px) {
+.names{
+display: block;
+font-size: 1ch;
+}
+.home_btn{
+font-size:1ch;
+}
+}
+
+@media only screen and (max-width: 1000px) {
+.names{
+font-size: 2ch;
+}
+.home_btn{
+font-size:2ch;
+}
+
+}
+
+
+
+.checkbox{  
+background: #a5a4a4c4;
+padding:10px;
+border-radius:15px;
+}
+
+.checkbox input[type=checkbox]{
+display: none;
+}
+
+.checkbox input[type=checkbox]:checked + .names{ 
+background:linear-gradient(45deg,#4196a1,#014f97);
+color:white;
+box-shadow: 0 9px 8px 0 #0d7bf833, 0 6px 20px 0 #0b7dff30;
+}
+.disable-select {
+user-select: none; /* supported by Chrome and Opera */
+-webkit-user-select: none; /* Safari */
+-khtml-user-select: none; /* Konqueror HTML */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+}
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" style="margin-top:100px;">
+<h1>New Student</h1>
+<a href="{{ url_for('csvread') }}" class="btn-primary btn">Upload CSV File</a>
+<hr>
+<h5 align="center">or</h5>
+<h4 align="center">Add One By One</h4>
+<form action="{{ url_for('new_contact') }}" method="post">
+	{{ generate_fields(form) }}
+	
+	<div>
+		<label for="displayValue">Select or Add a Batch:</label><br>
+		<div class="form-group" style="display:inline-flex; width:100%;">
+			<select class="form-control" 
+			onblur="document.getElementById('displayValue').value=this.options[this.selectedIndex].value;"
+			onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].value;">
+				<option value="">Select Batch</option>
+				{% for B in batches %}
+					<option value="{{B.batch}}">{{B.batch}}</option>
+					{% endfor %}
+				<option value="">Add New Batch</option>
+			</select>
+			<input required class="form-control" type="text" id="displayValue"
+				placeholder="add/select a batch" name="batch" onfocus="this.select()">
+	</div>
+		
+			<br>
+		
+		<label for="supuser"  style="display:inline-flex; width:100%;">Select the user who will have access</label>
+		<div class="col-12 checkbox form-group" id="supuser" style="display:inline-flex; width:100%;">
+			{% for user in supuser %}
+				<input type="checkbox"  name="allow" value="{{user.username}}" id="{{user.username}}" style="padding-left:50px;" class="custom-control-input">
+				<label class="custom-control-label names disable-select"  for="{{user.username}}">{{user.username}}</label> 
+			{% endfor %}
+		</div>
+	
+	</div>
+	<input type="submit" class="btn btn-success" value="Add">
+</form>
+</div>
+{% endblock %}

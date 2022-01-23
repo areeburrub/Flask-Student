@@ -1,0 +1,274 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Select the Attendance List of {{b}}{% endblock %}
+
+{% block head %}
+
+<!-- HTML Meta Tags -->
+<title>Attendance List of {{b}}</title>
+<meta name="description" content="Click on the link below and get the details of attendance of {{b}} ">
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="Attendance List of {{b}} | Rahmani-30 ">
+<meta itemprop="description" content="Click on the link below and get the details of attendance of {{b}} ">
+<meta itemprop="image" content="http://r30contmng.herokuapp.com/static/Attendance.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="http://r30contmng.herokuapp.com/2019-2021%20IIT/checklist">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Attendance List of {{b}} | Rahmani-30 ">
+<meta property="og:description" content="Click on the link below and get the details of attendance of {{b}} ">
+<meta property="og:image" content="http://r30contmng.herokuapp.com/static/Attendance.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Attendance List of {{b}} | Rahmani-30 ">
+<meta name="twitter:description" content="Click on the link below and get the details of attendance of {{b}} ">
+<meta name="twitter:image" content="http://r30contmng.herokuapp.com/static/Attendance.png">
+
+
+<style>
+  #navbart{
+    display:none;
+  }
+  .datas{  
+    display:flex;
+    padding:9px 10px 10px 10px;
+    margin-top: 10px;
+    background:linear-gradient(60deg,#c4c3c381,#c0afaf80);
+    overflow: scroll;
+    border-radius: 10px 10px 10px 10px;
+   }
+  .datas::-webkit-scrollbar {
+    width: 0em;
+  }
+  .datas::-webkit-scrollbar-track {
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+   
+  .datas::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg,#7eff15,#bffd8c);
+    border-radius: 10px 10px 10px 10px;
+  }
+  .data{  
+    background: -webkit-linear-gradient(60deg,#bdfc8a,#9eff4e);
+    padding: 2px 12px 2px 12px;
+    margin: 2px 5px 2px 0px;
+    color:black;
+    width:150px;
+    border-radius: 30px;
+    transform:scale(1);
+    transition: .3s;
+  }
+  .data:hover{  
+    background: -webkit-linear-gradient(60deg,#84d146,#72d422);
+    border-radius: 15px;
+    color:#000000;
+    text-decoration: none;
+  }
+  .ago{
+    color:black;
+    font-size:.5ch;
+    font-family:monospace;
+  }
+  .atd-link:hover{
+    text-decoration: none;
+  }
+  
+  .most{  
+    background: -webkit-linear-gradient(60deg,#fffb00,#fff130);
+    padding: 2px 12px 2px 12px;
+    margin: 2px;
+    width:100%;
+    height: auto;
+    color:black;
+    border-radius: 10px;
+    transform:scale(1);
+    transition: .6s;
+    overflow: hidden;
+    transition: .6s;
+    max-height: 25px ;
+  }
+  .most:hover{
+    height:auto;
+    text-decoration: none;
+    max-height:100px;
+  }
+  .head-ab{
+    font-size:2ch;
+    font-family: Arial;
+    color:white;
+  }
+  .most_list{
+    height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .most_list::-webkit-scrollbar {
+    width: 0em;
+  }
+  .stu-link{
+    color:black;
+  }
+  .stu-link:hover{
+    color:black;
+    text-decoration: none;
+  }
+  
+  {% if current_user.is_anonymous == false %}
+
+  #navbart{
+    display:block;
+  }
+
+  {% endif %}
+  .more{
+    background:white;
+    border-radius:30px;
+    padding:20px;
+    width:100%;
+    text-align:center;
+    font-size:1ch;
+    transition: .5s;
+  }
+  .more:hover{
+    background:#bdffde;
+    border-radius:40px;
+    padding:18px;
+    width:100%;
+    text-align:center;
+    font-size:2ch;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" style="margin-top:10px; margin-bottom:100px;">
+  
+  <div class="col col-12">
+    <a href="{{ url_for('contacts', batch=b) }}" class="btn btn-primary" style="border-radius:30px;">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <h3>Click below to check attendance of <b>{{b}}</b> batch</h3>
+  </div>
+
+  <div  class="col col-md-4 col-sm-4 col-xs-12 most_list"
+        style=" border-radius:20px;
+                margin-right:10px;
+                margin-bottom:10px;
+                padding:10px;
+                text-align:center; 
+                background:linear-gradient(20deg,#ff2c2c,#ff5252,#ff5d5d,#ff6969,#ff8787); display:block;">
+
+    <span class="head-ab">Most Absent</span>
+    
+    {% for s in most %}
+      {% if current_user.is_anonymous == false %}
+        <a class="stu-link" href="{{url_for('student', uid=s['uid'])}}">
+          <div class="most">
+            <label>{{s['name']}}</label><br />
+            <label><i  style="margin-right:3px;" class="fas fa-clipboard-check"></i>Present in {{s['present']}} class</label>
+            <label style="margin-right:5px;"> </label>
+            <label><i  style="margin-right:3px;" class="fas fa-times-circle"></i>Absent in {{s['absent']}} class </label>
+          </div>
+        </a>
+      {% else %}
+        <div class="most">
+          <label>{{s['name']}}</label><br />
+          <label><i  style="margin-right:3px;" class="fas fa-clipboard-check"></i>Present in {{s['present']}} class</label>
+          <label style="margin-right:5px;"> </label>
+          <label><i  style="margin-right:3px;" class="fas fa-times-circle"></i>Absent in {{s['absent']}} class </label>
+        </div>
+      {% endif %}   
+    {% endfor %}
+  </div>
+
+  <h4 align="center" style="padding-top:10px; font-family:monospace;">List of Classes</h4>
+  <div class="col col-md-7 col-sm-7 col-xs-12 datas" data-toggle="tooltip" data-placement="bottom" title="press SHIFT key and Scroll">
+    
+
+
+    {% for B in Datas %}
+      <a class="atd-link" href="{{url_for('attview',attid=B.attendid)}}">
+        <div class="card data">
+          <div class="card-body">
+            <h5 class="card-title">{{B.Class}}</h5>      
+            <h6 class="card-subtitle mb-2 "> ({{B.batch}}) </h6>
+            <p class="card-text"><b>{{B.present}}</b> Present || <b>{{B.absent}}</b> Absent</p>
+            <p class="ago">{{B.date|datetimeformat}}</p>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+
+    {% if Datas|length==5 %}
+    <a class="atd-link" href="{{url_for('attlismore',batch=b)}}">
+      <div class="card data" style="margin-top:15%;">
+        <div class="card-body">
+          <h5 class="card-title" align="center">Click for More</h5>      
+          <p class="card-text"><i class="more fas fa-arrow-right"></i></p>
+        </div>
+      </div>
+    </a>
+    {% endif %}
+
+  </div>
+  <canvas id="myChart" class="col col-md-5 col-sm-5 graph" >
+
+  </canvas>
+</div>
+<script>
+var present = [];
+var date = [];
+var absent = [];
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+  $.ajax({
+    type: "POST",
+    url: "/attgraph",
+    data: 'batch={{b}}',
+    success: function (r,v) {
+      for(i = 0; i < r.length; i++){
+        present.push(r[i].present)
+        date.push(r[i].date.slice(0,10))
+        absent.push(r[i].absent)
+        }    
+
+          var ctx = document.getElementById('myChart').getContext('2d');
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: date,
+                  datasets: [{
+                      label: 'No of Student Present',
+                      data: present,
+                      backgroundColor: 'rgba( 99,  255,132, 0.2)',
+                      borderColor:'rgba( 99, 255, 132, 1)',
+                      borderWidth: 1
+                  },
+                  {
+                    label: 'No of Student Absent',
+                    data: absent,
+                    backgroundColor:'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          }
+                      }]
+                  }
+              }
+          });
+}  
+});
+</script>
+{% endblock %}

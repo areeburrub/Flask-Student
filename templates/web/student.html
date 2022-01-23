@@ -1,0 +1,90 @@
+{% extends 'layouts/master.html' %}
+{% block title %}{{student.fullname}} | {{student.batch}}{% endblock %}
+{% block body %}
+<div class="container" style="margin-top:100px; margin-bottom:100px;">
+    <a href="{{ url_for('contacts', batch=student.batch) }}" class="btn btn-primary" style="border-radius:30px;">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+    <h1 align="center">Student Profile of {{student.fullname}}</h1>
+
+    <!-- Students Card -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <h4>{{student.fullname}}</h4>
+                        <small><i>{{student.batch}}</i></small>
+                        <p>
+                            <i class="icon fas fa-envelope"></i><a target="_blank"  href="mailto:{{ student.email }}">{{ student.email }}</a>
+                            <br />
+                            <i class="icon fas fa-user-friends"></i> In care of : {{student.G_name}}
+                            <br />
+                            <i class="icon fas fa-phone"></i> <a target="_blank"  href="tel:{{ student.phone }}">{{ student.phone }}</a></td>
+                            <br />
+                            <i class="icon fab fa-whatsapp"></i> Student's Whatsapp : <a target="_blank"  href="https://api.whatsapp.com/send?phone={{ student.G_W }}">+{{ student.G_W }}</a>
+                            <br />
+                            <i class="icon fab fa-whatsapp"></i> Guardian's Whatsapp : <a target="_blank"  href="https://api.whatsapp.com/send?phone={{ student.C_W }}">+{{ student.C_W }}</a>
+                            <br />
+                            <i class="icon fas fa-clipboard-check"></i>Present in {{P}}% class
+                            <div class="progress" style="background:linear-gradient(45deg, #767776,#9b9b9b);">
+                                <div class="progress-bar" style="background:linear-gradient(45deg, #1eff4f,#91ff66); width:{{P}}%"></div>
+                            </div>
+
+                            <i class=" icon fas fa-times-circle"></i> Absent in {{A}}% class
+                            <div class="progress" style="background:linear-gradient(45deg, #767776,#9b9b9b);">
+                                <div class="progress-bar" style="background:linear-gradient(45deg, #ff1818,#fa3838);width:{{A}}%"></div>
+                            </div>
+                        </p>
+                        {% if user.userad == true %}        
+                        <a class="btn btn-info" href="{{ url_for('edit_contact', id=student.id) }}" style="width:100%;"><i class="icon fas fa-edit"></i> edit about</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 well well-sm">
+            <div class="widget-area no-padding blank">
+                <div class="status-upload">
+                    <form action="{{url_for('remark')}}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="to" value="{{ student.uid }}">
+                        <input type="hidden" name="by" value="{{ user.adid }}">
+                        <input type="hidden" name="byname" value="{{ user.username }}">
+                        <textarea name="remark" style="width:100%; height:32vh; resize:vertical;" placeholder="Write Remark here !!!!" ></textarea>
+                        <button type="submit" style="width:100%;" class="btn btn-success green">Add Remark <i class="fa fa-plus" style="margin-left: 5px; font-size:1ch;"></i></button>
+                    </form>
+                </div><!-- Status Upload  -->
+            </div><!-- Widget Area -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="comments col-12">
+            {% for remark in remarks %}
+            <div class="comment">
+              <div class="comment-body">
+                <div class="text">
+                    <p class="commenttext">{{remark.text|safe}}</p>
+                </div>
+                <a href="{{url_for('delremark', rid = remark.rid)}}" style="margin-top:5px;" class="btn-sm btn-danger pull-right" data-toggle="confirmation" {# data-title="¿Estas seguro?" #}> Delete </a> 
+                <p class="attribution">by <a href="#non">{{remark.byname}}</a> - {{remark.date|datetimeformat}}</p>
+              </div>
+            </div>
+            {% endfor %}
+
+            
+        </div>
+    </div>
+
+
+<script>
+	
+	$('[data-toggle=confirmation]').confirmation({
+		rootSelector: '[data-toggle=confirmation]',
+	//btnOkLabel: 'Si',
+	//btnCancelLabel: 'No'
+	});
+	
+	</script>
+{% endblock %}

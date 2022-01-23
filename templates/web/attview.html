@@ -1,0 +1,69 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Attendance{% endblock %}
+{% block head%}
+
+<!-- HTML Meta Tags -->
+<title>Attendance of {{list.Class}}  </title>
+<meta name="description" content="Click on the link below and get the details of attendance of {{list.Class}} ">
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="Attendance List of {{list.Class}} | Rahmani-30 ">
+<meta itemprop="description" content="Click on the link below and get the details of attendance of {{list.Class}} ">
+<meta itemprop="image" content="http://r30contmng.herokuapp.com/static/Attendance.png">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="http://r30contmng.herokuapp.com/2019-2021%20IIT/checklist">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Attendance List of {{list.Class}} | Rahmani-30 ">
+<meta property="og:description" content="Click on the link below and get the details of attendance of {{list.Class}} ">
+<meta property="og:image" content="http://r30contmng.herokuapp.com/static/Attendance.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Attendance List of {{list.Class}} | Rahmani-30 ">
+<meta name="twitter:description" content="Click on the link below and get the details of attendance of {{list.Class}} ">
+<meta name="twitter:image" content="http://r30contmng.herokuapp.com/static/Attendance.png">
+
+<link href="{{ url_for('static', filename='css/checklist.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="row">
+      <div class="col col-12 ">
+        <a href="{{ url_for('attlis', batch = list.batch) }}" class="btn btn-primary" style="border-radius:30px;">
+          <i class="fas fa-arrow-left"></i> MainPage
+        </a><br />
+        <a href="{{ url_for('attlismore', batch = list.batch) }}" class="btn btn-primary" style="border-radius:30px; margin-top:5px;">
+          <i class="fas fa-arrow-left"></i> All Attendance
+        </a>
+        {% if csv == true %}
+          <a target="_blank" href="https://diyareeb.s3.us-east-2.amazonaws.com/r30/csv/exported/{{file}}.csv" class="btn btn-primary" style="border-radius:30px; float:right;">
+            <i class="fas fa-cloud-download-alt"></i> Download CSV
+          </a>
+        {% else %}
+          <a target="_blank" href="{{ url_for('export', attid = file) }}" class="btn btn-primary" style="border-radius:30px; float:right;">
+            <i class="fas fa-cloud-download-alt"></i> Download CSV
+          </a>
+        {% endif %}
+        <h4 align="center"><i>{{list.Class}}</i> of ({{list.batch}}) || <b>{{list.present}}</b> Present || <b>{{list.absent}}</b> Absent || added {{list.date|datetimeformat}}</h4>
+      </div>
+      <div class="col-12 checkbox disable-select">
+        {% if csv == false %}
+
+          {% for name in names %}
+            <input type="checkbox"  name="names" value="{{name.of}}" id="{{name.of}}" style="padding-left:50px;" class="custom-control-input" {% if name.status == true %} checked {% endif %} disabled >
+            <label class="custom-control-label names " for="{{name.of}}">{{name.of}}</label>  
+          {% endfor %}
+
+        {% else %}
+
+          {% for name in names %}
+            <input type="checkbox"  name="names" value="{{name['name']}}" id="{{name['name']}}" style="padding-left:50px;" class="custom-control-input" {% if name['status'] == 'True' %} checked {% elif name['status'] == 'none'  %} data-toggle="tooltip" data-placement="top" title="This name wasn't added at the time of Attendance"  {% endif %} disabled >
+            <label class="custom-control-label names " for="{{name['name']}}">{{name['name']}}</label>  
+          {% endfor %}
+
+        {% endif %}
+      </div>
+  </div>
+</div>
+{% endblock %}

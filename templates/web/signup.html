@@ -1,0 +1,126 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Add Super User to Control as Admin
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/signin.css')}}">
+<style>
+#navbart{
+  display: none;
+}
+.home_btn{
+  position:fixed;
+  top:0;
+  right:0;
+  font-size:4ch;
+  margin:5px;
+  padding:5px;
+  border-radius:15px;
+  background:linear-gradient(45deg,#8d7e7e7e,#b5e2b959);
+}
+.names{
+display:inline-flex;
+padding: 2px 18px 2px 0px;
+margin: 9px 0px 12px 10px;
+background:linear-gradient(45deg,#eecc6d,#f8cc3c);
+font-family: Arial, Helvetica, sans-serif;
+font-size: 2.8ch;
+border-radius:10px;
+text-align:center;
+color:black;
+box-shadow: 0 9px 8px 0 #f8c10d33, 0 6px 9px 0 #ffed4d30;
+}
+.pur{
+font-family: monospace;
+font-weight:5;
+font-size:4ch;
+}
+.f{
+width:100%;
+display:inline-flex;
+}
+@media only screen and (max-width: 400px) {
+.names{
+display: block;
+font-size: 1ch;
+}
+.home_btn{
+font-size:1ch;
+}
+}
+
+@media only screen and (max-width: 1000px) {
+.names{
+font-size: 0.8ch;
+}
+.home_btn{
+font-size:2ch;
+}
+
+}
+
+
+
+.checkbox{  
+background: #a5a4a4c4;
+padding:10px;
+border-radius:15px;
+}
+
+.checkbox input[type=checkbox]{
+display: none;
+}
+
+.checkbox input[type=checkbox]:checked + .names{ 
+background:linear-gradient(45deg,#4196a1,#014f97);
+color:white;
+box-shadow: 0 9px 8px 0 #0d7bf833, 0 6px 20px 0 #0b7dff30;
+}
+.disable-select {
+user-select: none; /* supported by Chrome and Opera */
+-webkit-user-select: none; /* Safari */
+-khtml-user-select: none; /* Konqueror HTML */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h4 align="center" style="color:red;">Add a user to this website</h4>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <form class="form-signin" method="POST" action="/addsuperuser">
+        <h2 class="form-signin-heading">Sign Up</h2>
+        {{ form.hidden_tag() }}
+        {{ wtf.form_field(form.username) }}
+        {{ wtf.form_field(form.email) }}
+        {{ wtf.form_field(form.password) }}
+        {{ wtf.form_field(form.confirm) }}
+        <br>
+        <label for="batches">Select the batch user will access</label>
+        <div class="col-12 checkbox" id="batches">
+          {% for batch in batches %}
+            <input type="checkbox"  name="allow" value="{{batch.batch}}" id="{{batch.batch}}" style="padding-left:50px;" class="custom-control-input">
+            <label class="custom-control-label names disable-select"  for="{{batch.batch}}">{{batch.batch}}</label> 
+          {% endfor %}
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add as Super User</button>
+      </form>
+    </div>
+    
+    <div class="col-md-6 col-xs-12">
+      <img style="  width:100%;" src="https://storage.googleapis.com/website-dev-images/sites/default/files/Untitled%20design%20%2885%29.jpg">
+    </div>
+  </div>
+</div> <!-- /container -->
+
+{% endblock %}

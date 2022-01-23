@@ -1,0 +1,44 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/signin.css')}}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          {# Flashed messages #}
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          <h4 align="center" style="color:red;">Use your Credentials to login to the website</h4>
+        </div>
+        <div class="col-md-6 col-xs-12">
+          <form class="form-signin" method="POST" action="/login">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.username) }}
+            {{ wtf.form_field(form.password) }}
+            {{ wtf.form_field(form.remember) }}
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          </form>
+        </div>
+        
+        <div class="col-md-6 col-xs-12">
+          <img style="  width:100%;" src="https://storage.googleapis.com/website-dev-images/sites/default/files/Untitled%20design%20%2885%29.jpg">
+        </div>
+      </div>
+    </div> <!-- /container -->
+{% endblock %}

@@ -1,0 +1,79 @@
+
+  #navbart{
+    display: none;
+  }
+  .home_btn{
+    position:fixed;
+    top:0;
+    right:0;
+    font-size:4ch;
+    margin:5px;
+    padding:5px;
+    border-radius:15px;
+    background:linear-gradient(45deg,#8d7e7e7e,#b5e2b959);
+  }
+.names{
+  display:inline-flex;
+  padding: 2px 18px 2px 0px;
+  margin: 9px 0px 12px 10px;
+  background:linear-gradient(45deg,#ee6d6d,#f8583c);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2.8ch;
+  border-radius:10px;
+  text-align:center;
+  color:black;
+  box-shadow: 0 9px 8px 0 #f8150d33, 0 6px 9px 0 #ff864d30;
+}
+.pur{
+  font-family: monospace;
+  font-weight:5;
+  font-size:4ch;
+}
+.f{
+  width:100%;
+  display:inline-flex;
+}
+@media only screen and (max-width: 400px) {
+  .names{
+  display: block;
+  font-size: 1ch;
+}
+.home_btn{
+  font-size:1ch;
+}
+}
+
+@media only screen and (max-width: 1000px) {
+  .names{
+  font-size: 0.8ch;
+}
+.home_btn{
+  font-size:2ch;
+}
+
+}
+
+
+
+.checkbox{  
+  background: #a5a4a4c4;
+  padding:10px;
+  border-radius:15px;
+}
+
+.checkbox input[type=checkbox]{
+  display: none;
+}
+
+.checkbox input[type=checkbox]:checked + .names{ 
+  background:linear-gradient(45deg,#49a141,#01974c);
+  color:white;
+  box-shadow: 0 9px 8px 0 #0df83433, 0 6px 20px 0 #3cff0b30;
+}
+.disable-select {
+  user-select: none; /* supported by Chrome and Opera */
+ -webkit-user-select: none; /* Safari */
+ -khtml-user-select: none; /* Konqueror HTML */
+ -moz-user-select: none; /* Firefox */
+ -ms-user-select: none; /* Internet Explorer/Edge */
+}

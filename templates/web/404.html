@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+  
+  html {
+      font-size: 62.5%;
+  }
+  
+  body {
+      width: 100%;
+      height: 100vh;
+      background: url("https://i.hizliresim.com/FqrRKV.jpg") center no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+  }
+  
+  .hata-kutusu {
+      width: 100%;
+      max-width: 50rem;
+      background-color: #181818;
+      padding: 2.5rem 2.5rem 8rem;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 0 2rem rgba(0,0,0,.8);
+  }
+  
+  .logo-bolum {
+      width: 6rem;
+      height: 6rem;
+  }
+  
+  .logo {
+      width: 100%;
+  }
+  
+  .hata-numara {
+      color: #fff;
+      font-size: 3.6rem;
+      text-transform: uppercase;
+  }
+  
+  .hata-mesaj {
+      display: inline-block;
+      background-color: #fff;
+      font-size: 2rem;
+      text-transform: uppercase;
+      padding: 1rem;
+  }
+  
+  .hata-aciklama {
+      color: #eee;
+      font-size: 1.4rem;
+      margin-top: 2.5rem;
+      margin-bottom: 4rem;
+      letter-spacing: 1px;
+  }
+  
+  .hata-link {
+      text-decoration: none;
+      color: #957c09;
+      font-size: 1.7rem;
+      border: 1px solid #957c09;
+      padding: 1rem 2.5rem;
+      transition: background-color .5s;
+  }
+  
+  .hata-link:hover {
+      background-color: #957c09;
+      color: #fff;
+  
+  }
+  
+  @media screen and (min-width: 768px) {
+      .hata-kutusu {
+          max-width: 70rem;
+      }
+      .hata-numara {
+          font-size: 6rem;
+      }
+      .hata-mesaj {
+          font-size: 3.5rem;
+      }
+      .hata-aciklama {
+          font-size: 1.6rem;
+      }
+      .hata-link {
+          font-size: 2rem;
+      }
+  }
+  
+  </style>
+  <title>No Such Page on R30 Contacts</title>
+</head>
+
+<body>
+  <div class="hata-kutusu">
+      <h2 class="hata-numara">404 Error!</h2>
+      <h3 class="hata-mesaj">Page Not Found</h3>
+      <p class="hata-aciklama">
+          No Such Page Available on R30 Contacts
+      </p>
+      <a href="{{url_for('index')}}" class="hata-link">Get back to homepage</a>
+  </div>
+</body>
+</html>

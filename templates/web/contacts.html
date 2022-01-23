@@ -1,0 +1,78 @@
+{% extends 'layouts/master.html' %}
+{% block title %} ( {{b}} ) Batch || Student List{% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col col-12">
+			{% if b|length>0 %}
+			<h2 align="center">
+				List of batch (<b>{{b}}</b>) ,Have <b>{{ contacts|length }}</b> Students
+			</h2>
+			{% elif s|length>0 %}
+			<h2 align="center">
+				<b>{{ contacts|length }}</b> names have "<b>{{s}}</b>" in them
+			</h2>
+			{% elif s|length==0 %}
+			<h2 align="center">
+				No names have "<b>{{s}}</b>" in them
+			</h2>
+			{% endif %}
+			{% if contacts|length > 0 %}
+		</div>
+		<hr>
+		<div class="col col-12" style="margin:10px;">
+			<a href="{{url_for('att',batch=b)}}" class="btn btn-primary">CheckList</a>
+			<a href="{{url_for('attlis',batch=b)}}" class="btn btn-primary">View Attendance</a>
+		</div>
+		<hr>
+		
+		<div class="col col-12">
+			<table class="rwd-table">
+				<tbody role="rowgroup">
+					<tr role="row">
+						<th role="columnheader" scope="col">Name</th>
+						<th role="columnheader" scope="col">E-mail</th>
+						<th role="columnheader" scope="col">Phone Number</th>
+						<th role="columnheader" scope="col">Guardiun</th>
+						<th role="columnheader" scope="col">Guardian Whatsapp</th>
+						<th role="columnheader" scope="col">Student's Whatsapp</th>
+						<th role="columnheader" scope="col">Batch</th>
+						{% if user.userad == true %}
+						<th></th>
+						{% endif %}
+					</tr>
+				{% for contact in contacts %}
+					<tr role="row">
+						<td role="cell" data-th="Full Name" ><a data-toggle="tooltip" data-placement="top" title="Goto {{ contact.fullname }}'s Profile" target="_blank"  href="{{ url_for('student', uid=contact.uid) }}">{{ contact.fullname }}</a></td>
+						<td role="cell" data-th="E-Mail" ><a data-toggle="tooltip" data-placement="top" title="Send E-mail to {{ contact.fullname }}" target="_blank"  href="mailto:{{ contact.email }}">{{ contact.email }}</a></td>
+						<td role="cell" data-th="Phone" ><a data-toggle="tooltip" data-placement="top" title="Call {{ contact.fullname }}" target="_blank"  href="tel:{{ contact.phone }}">{{ contact.phone }}</a></td>
+						<td role="cell" data-th="Guardian" >{{ contact.G_name }}</td>
+						<td role="cell" data-th="Guardian Whatsapp"><a data-toggle="tooltip" data-placement="top" title="Whatsapp {{ contact.fullname }}'s Guardiun" target="_blank"  href="https://api.whatsapp.com/send?phone={% if contact.G_W|length>10 %}{{contact.G_W}}{% else %}91{{contact.G_W}}{% endif %}">{{ contact.G_W }}</a></td>
+						<td role="cell" data-th="Student's Whatsapp"><a data-toggle="tooltip" data-placement="top" title="Whatsapp {{ contact.fullname }}" target="_blank"  href="https://api.whatsapp.com/send?phone={% if contact.C_W|length>10 %}{{contact.C_W}}{% else %}91{{contact.C_W}}{% endif %}">{{ contact.C_W }}</a></td>
+						<td role="cell" data-th="Batch"><b>{{ contact.batch }}</b></td>
+						{% if user.userad == true %}
+						<td data-th="Edit Button">
+							<a href="{{ url_for('edit_contact', id=contact.id) }}"><button class="btn-sm btn-primary" style="width:100%;">Edit</button></a>
+						</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+
+			{% if b|length>0 %}
+			<h2 align="center">No Contacts of ( <b>{{b}}</b> ) batch is Found</h2>
+			{% endif %}
+
+			{% endif %}
+		</div>
+	</div>
+</div>
+<script>
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
+</script>
+
+{% endblock %}
